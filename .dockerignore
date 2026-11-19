@@ -1,0 +1,10 @@
+node_modules
+.next
+.git
+.env
+.env*.local
+leetcode-companywise-interview-questions
+README.md
+*.db-journal
+*.db-shm
+*.db-wal
