@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: #06080d;
+  --color-foreground: #e8ecf4;
+  --color-surface: #0c1017;
+  --color-surface-raised: #111820;
+  --color-surface-overlay: #161e2a;
+  --color-border: #1c2535;
+  --color-border-subtle: #141c28;
+  --color-accent: #6c5ce7;
+  --color-accent-hover: #7c6ef7;
+  --color-accent-muted: rgba(108, 92, 231, 0.12);
+  --color-accent-glow: rgba(108, 92, 231, 0.25);
+  --color-easy: #00b894;
+  --color-medium: #fdcb6e;
+  --color-hard: #e17055;
+  --color-solved: #00cec9;
+  --color-attempted: #ffeaa7;
+  --color-muted: #636e82;
+  --font-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), 'SF Mono', 'Fira Code', monospace;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+}
+
+/* Organic scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-muted); }
+
+/* Smooth fade-in for modals */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.animate-fade-up {
+  animation: fadeUp 0.2s ease-out;
+}
+
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to   { background-position: 200% 0; }
+}
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 25%, rgba(108, 92, 231, 0.06) 50%, transparent 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Selection colors */
+::selection {
+  background: rgba(108, 92, 231, 0.3);
+  color: #d6d0ff;
+}

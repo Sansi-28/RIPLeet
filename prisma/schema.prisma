@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// -----------------------------------------------------------------
+// 1. Tables populated by the Python Ingestion Script
+// -----------------------------------------------------------------
+
+model Question {
+  id               Int               @id
+  title            String            @unique
+  url              String?
+  difficulty       String?
+  acceptance       Float?
+
+  companyQuestions CompanyQuestion[]
+  userProgress     UserProgress[]
+
+  @@map("questions")
+}
+
+model Company {
+  id               Int               @id @default(autoincrement())
+  name             String            @unique
+  companyQuestions CompanyQuestion[]
+
+  @@map("companies")
+}
+
+model CompanyQuestion {
+  company_id  Int
+  question_id Int
+  timeframe   String
+  frequency   Float?
+
+  company  Company  @relation(fields: [company_id], references: [id])
+  question Question @relation(fields: [question_id], references: [id])
+
+  @@id([company_id, question_id, timeframe])
+  @@map("company_questions")
+}
+
+// -----------------------------------------------------------------
+// 2. Auth & User tracking
+// -----------------------------------------------------------------
+
+model User {
+  id           Int            @id @default(autoincrement())
+  email        String         @unique
+  name         String?
+  passwordHash String?
+  createdAt    DateTime       @default(now())
+  progress     UserProgress[]
+
+  @@map("users")
+}
+
+model UserProgress {
+  user_id     Int
+  question_id Int
+  status      String    // "SOLVED", "ATTEMPTED", "TODO"
+  notes       String?
+  updatedAt   DateTime  @updatedAt
+
+  user     User     @relation(fields: [user_id], references: [id])
+  question Question @relation(fields: [question_id], references: [id])
+
+  @@id([user_id, question_id])
+  @@map("user_progress")
+}
